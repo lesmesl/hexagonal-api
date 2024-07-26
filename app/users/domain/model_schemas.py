@@ -2,6 +2,7 @@ from pydantic import BaseModel, EmailStr
 
 class UserCreateSchema(BaseModel):
     email: EmailStr
+    username: str
     password: str
 
 class UserLoginSchema(BaseModel):
@@ -14,4 +15,4 @@ class UserResponseSchema(BaseModel):
     username: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True
