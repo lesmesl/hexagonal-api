@@ -3,13 +3,13 @@ API RESTful con FastAPI y SQLite, con autenticación y autorización (JWT), y pr
 
 ## Requisitos
 
-- Python 3.8+
+- Python 3.9.6
 - FastAPI
 - SQLite
 - Pydantic
 - Pytest
 - JWT
-- Poetry
+- Poetr
 
 ## Instalación y Ejecución
 
@@ -32,21 +32,16 @@ API RESTful con FastAPI y SQLite, con autenticación y autorización (JWT), y pr
     SECRET_KEY=tu_secreto
     ALGORITHM=HS256
     ACCESS_TOKEN_EXPIRE_MINUTES=30
+   ``
+5. Realiza las migraciones:
+   ``` bash
+   alembic upgrade head
    ```
-5. Iniciar el proyecto:
+6. Iniciar el proyecto:
    ``` bash
    poetry run uvicorn app.main:app --reload --port 8000
    ```
 
-## Migraciones de Base de Datos (en proceso)
-1. Inicializa las migraciones de la base de datos:
-   ``` bash
-   alembic init alembic
-   ```
-2. Realiza las migraciones:
-   ``` bash
-   alembic upgrade head
-   ```
 
 ## Pruebas
 1. Ejecuta las pruebas unitarias:

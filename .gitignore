@@ -1,7 +1,28 @@
+# Ignorar archivos de base de datos locales
+*.db
+*.sqlite3
+
+# Ignorar archivos temporales y de caché
 __pycache__/
+*.pyc
+*.pyo
 *.py[cod]
 *$py.class
 .pytest_cache
+
+
+# No ignorar archivos de configuración de Alembic
+!alembic.ini
+!alembic/env.py
+!alembic/script.py.mako
+!alembic/versions/
+
+# Ignorar todo lo demás en el directorio alembic
+alembic/*
+# Pero no ignorar los archivos de configuración y versiones
+!alembic/env.py
+!alembic/script.py.mako
+!alembic/versions/
 
 # Environments
 .env

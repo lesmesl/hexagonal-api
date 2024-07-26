@@ -4,11 +4,20 @@ version = "0.1.0"
 description = "API RESTful con FastAPI y SQLite, con autenticación y autorización (JWT), y pruebas unitarias (pytest). Implementada con Arquitectura Hexagonal, Vertical Slice y Screaming Architecture."
 authors = ["lesmesl <c.lesmesl@uniandes.edu.co>"]
 readme = "README.md"
+packages = [
+    { include = "app" }
+]
+package-mode = false
+
 
 [tool.poetry.dependencies]
 python = "^3.9"
 fastapi = "^0.111.1"
 uvicorn = "^0.30.3"
+sqlalchemy = "^2.0.31"
+passlib = "^1.7.4"
+pyjwt = "^2.8.0"
+alembic = "^1.13.2"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -16,5 +25,5 @@ black = "^24.4.2"
 pytest = "^8.3.2"
 
 [build-system]
-requires = ["poetry-core"]
+requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
