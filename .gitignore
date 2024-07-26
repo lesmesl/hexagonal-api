@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache
+
+# Environments
+.env
+.venv
+env/
+venv/
+
+# vscode
+.vscode
+
+#test
+.coverage

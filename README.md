@@ -11,7 +11,7 @@ API RESTful con FastAPI y SQLite, con autenticación y autorización (JWT), y pr
 - JWT
 - Poetry
 
-## Instalación
+## Instalación y Ejecución
 
 1. Clona el repositorio:
    ``` bash
@@ -19,7 +19,7 @@ API RESTful con FastAPI y SQLite, con autenticación y autorización (JWT), y pr
    ```
 2. Navega al directorio del proyecto:
    ``` bash
-   cd tu_repositorio
+   cd hexagonal-api.git
    ```
 3. Instala las dependencias:
    ``` bash
@@ -33,8 +33,12 @@ API RESTful con FastAPI y SQLite, con autenticación y autorización (JWT), y pr
     ALGORITHM=HS256
     ACCESS_TOKEN_EXPIRE_MINUTES=30
    ```
+5. Iniciar el proyecto:
+   ``` bash
+   poetry run uvicorn app.main:app --reload --port 8000
+   ```
 
-## Migraciones de Base de Datos
+## Migraciones de Base de Datos (en proceso)
 1. Inicializa las migraciones de la base de datos:
    ``` bash
    alembic init alembic
@@ -42,11 +46,6 @@ API RESTful con FastAPI y SQLite, con autenticación y autorización (JWT), y pr
 2. Realiza las migraciones:
    ``` bash
    alembic upgrade head
-   ```
-## Ejecución
-1. Inicializa las migraciones de la base de datos:
-   ``` bash
-   uvicorn app.main:app --reload
    ```
 
 ## Pruebas
@@ -60,10 +59,11 @@ API RESTful con FastAPI y SQLite, con autenticación y autorización (JWT), y pr
 HEXAGONAL-API/
 ├── app/
 │   ├── config/
-│   │   ├── config.py                 # Configuración general de la aplicación
+│   │   ├── config.py                 # Configuración general de la aplicación y sus variables de entorno
 │   │   ├── database.py               # Configuración de la base de datos y creación de sesiones
 │   │   ├── security.py               # Configuración de seguridad (JWT, OAuth2, etc.)
 │   │   ├── fastapi_config.py         # Configuración de FastAPI
+│   │   ├── constants.py              # Constantes de la aplicación
 │   │   ├── __init__.py               
 │   ├── products/
 │   │   ├── application/
@@ -100,6 +100,7 @@ HEXAGONAL-API/
 │   ├── conftest.py                   # Configuraciones para las pruebas
 │   ├── test_users.py                 # Pruebas para el módulo de usuarios
 │   ├── test_products.py              # Pruebas para el módulo de productos
+│   ├── test_routers_ping.py          # Pruebas para el router de ping
 │   └── __init__.py                   # Archivo de inicialización para el módulo de pruebas
 ├── alembic/
 │   ├── versions/                     # Carpeta donde se almacenan las migraciones
