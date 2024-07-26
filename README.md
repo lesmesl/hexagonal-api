@@ -72,10 +72,9 @@ HEXAGONAL-API/
 │   │   │   ├── delete_product.py     # Caso de uso para eliminar un producto
 │   │   │   ├── get_products.py       # Caso de uso para obtener productos
 │   │   ├── domain/
-│   │   │   ├── models.py             # Modelos de dominio para productos
+│   │   │   ├── model_schemas.py             # Esquemas de Pydantic para productos
 │   │   │   ├── repository_interface.py # Interfaces de repositorios para productos
 │   │   ├── infrastructure/
-│   │   │   ├── schemas.py            # Esquemas de Pydantic para productos
 │   │   │   ├── models.py             # Modelos de SQLAlchemy para productos
 │   │   │   ├── repository.py         # Implementación del repositorio de productos
 │   │   │   ├── router.py             
@@ -86,10 +85,9 @@ HEXAGONAL-API/
 │   │   │   ├── login_user.py         # Caso de uso para iniciar sesión de usuario
 │   │   │   ├── get_user.py           # Caso de uso para obtener perfil de usuario
 │   │   ├── domain/
-│   │   │   ├── models.py             # Modelos de dominio para usuarios
+│   │   │   ├── model_schemas.py            # Esquemas de Pydantic para usuarios
 │   │   │   ├── repository_interface.py # Interfaces de repositorios para usuarios
 │   │   ├── infrastructure/
-│   │   │   ├── schemas.py            # Esquemas de Pydantic para usuarios
 │   │   │   ├── models.py             # Modelos de SQLAlchemy para usuarios
 │   │   │   ├── repository.py         # Implementación del repositorio de usuarios
 │   │   │   ├── router.py             
