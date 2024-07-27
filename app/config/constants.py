@@ -1,3 +1,7 @@
 PROJECT_NAME = "API HEXAGONAL"
 PROJECT_VERSION = "0.1.0"
 API_V1_URL = "/api/v1"
+LOGIN_ROUTE = "/login"
+USERS_ME_ROUTE = "/users/me"
+REGISTER_ROUTE = "/register"
+PING_ROUTE = "/ping"

@@ -9,7 +9,7 @@ API RESTful con FastAPI y SQLite, con autenticación y autorización (JWT), y pr
 - Pydantic
 - Pytest
 - JWT
-- Poetr
+- Poetry
 
 ## Instalación y Ejecución
 
@@ -48,7 +48,11 @@ API RESTful con FastAPI y SQLite, con autenticación y autorización (JWT), y pr
    ``` bash
    pytest
    ```
-
+2. Ejecuta el linter y formateador de código:
+   ``` bash
+   poetry run lint_and_format
+   ```
+   
 ## Estructura del Proyecto
 ``` bash
 HEXAGONAL-API/
@@ -59,16 +63,13 @@ HEXAGONAL-API/
 │   │   ├── security.py               # Configuración de seguridad (JWT, OAuth2, etc.)
 │   │   ├── fastapi_config.py         # Configuración de FastAPI
 │   │   ├── constants.py              # Constantes de la aplicación
-│   │   ├── __init__.py               
+│   │   ├── __init__.py                
 │   ├── products/
 │   │   ├── application/
-│   │   │   ├── create_product.py     # Caso de uso para crear un nuevo producto
-│   │   │   ├── update_product.py     # Caso de uso para actualizar un producto
-│   │   │   ├── delete_product.py     # Caso de uso para eliminar un producto
-│   │   │   ├── get_products.py       # Caso de uso para obtener productos
+│   │   │   ├── use_cases.py          # Contiene los diferentes casos de uso de productos
 │   │   ├── domain/
-│   │   │   ├── model_schemas.py             # Esquemas y modelos para productos
-│   │   │   ├── repository_interface.py # Interfaces de repositorios para productos
+│   │   │   ├── model.py                  # Contiene la entidad que define el producto
+│   │   │   ├── repository_interface.py   # Interfaces de repositorios para productos
 │   │   ├── infrastructure/
 │   │   │   ├── models.py             # Modelos de SQLAlchemy para productos
 │   │   │   ├── repository.py         # Implementación del repositorio de productos
@@ -77,18 +78,16 @@ HEXAGONAL-API/
 │   │   │   ├── __init__.py           
 │   ├── users/
 │   │   ├── application/
-│   │   │   ├── register_user.py      # Caso de uso para registrar un nuevo usuario
-│   │   │   ├── login_user.py         # Caso de uso para iniciar sesión de usuario
-│   │   │   ├── get_user.py           # Caso de uso para obtener perfil de usuario
+│   │   │   ├── use_cases.py          # Contiene los diferentes casos de uso de usario
 │   │   ├── domain/
-│   │   │   ├── model_schemas.py            # Esquemas y modelos para usuarios
-│   │   │   ├── repository_interface.py # Interfaces de repositorios para usuarios
+│   │   │   ├── model.py                  # Contiene la entidad que define el usuario
+│   │   │   ├── repository_interface.py   # Interfaces de repositorios para usuarios
 │   │   ├── infrastructure/
 │   │   │   ├── models.py             # Modelos de SQLAlchemy para usuarios
 │   │   │   ├── repository.py         # Implementación del repositorio de usuarios
 │   │   │   ├── dtos.py               # schemas de Pydantic para base de datos de usuarios
 │   │   │   ├── router.py             # Rutas del API para usuarios
-│   │   │   ├── __init__.py           # Archivo de inicialización del módulo infrastructure
+│   │   │   ├── __init__.py           
 │   ├── __init__.py                   
 │   ├── main.py                       # Punto de entrada de la aplicación
 ├── tests/
@@ -102,7 +101,7 @@ HEXAGONAL-API/
 │   ├── env.py                        # Archivo de entorno para Alembic
 │   └── script.py.mako                # Plantilla para scripts de migración
 ├── scripts/                          # Scripts de inicialización o mantenimiento
-│   ├── init_db.py                    # Script para inicializar la base de datos
+│   ├── lint_and_format.py.py         # Script de desarrollo para aplicar linter y formateer
 ├── docs/                             # Documentación adicional
 ├── alembic.ini                       # Archivo de configuración de Alembic
 ├── pyproject.toml                    # Archivo de configuración de Poetry

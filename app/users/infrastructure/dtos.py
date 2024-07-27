@@ -1,5 +1,7 @@
 from pydantic import BaseModel, EmailStr
+
 from app.users.domain.model import User
+
 
 class UserCreateSchema(BaseModel):
     email: EmailStr
@@ -13,9 +15,14 @@ class UserCreateSchema(BaseModel):
             password=self.password,
         )
 
+    class Config:
+        from_attributes = True
+
+
 class UserLoginSchema(BaseModel):
     email: EmailStr
     password: str
+
 
 class UserResponseSchema(BaseModel):
     id: int
@@ -24,3 +31,8 @@ class UserResponseSchema(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str

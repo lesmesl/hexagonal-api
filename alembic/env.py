@@ -1,20 +1,19 @@
 # alembic/env.py
-from logging.config import fileConfig
-from sqlalchemy import engine_from_config
-from sqlalchemy import pool
-from alembic import context
-import sys
 import os
+import sys
+from logging.config import fileConfig
+
+from sqlalchemy import engine_from_config, pool
+
+from alembic import context
 
 # Agregar la ruta de la aplicación al sys.path
-sys.path.insert(0, os.path.realpath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.insert(0, os.path.realpath(os.path.join(os.path.dirname(__file__), "..")))
 
 # Importar settings y Base
-from app.config.config import settings
 from app.config.database import Base
 
 # Importar los modelos para que Alembic los reconozca
-from app.users.infrastructure.models import User
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -25,9 +24,9 @@ config = context.config
 fileConfig(config.config_file_name)
 
 # Set the SQLAlchemy URL from settings
-database_url = os.getenv('DATABASE_URL')
+database_url = os.getenv("DATABASE_URL")
 if database_url:
-    config.set_main_option('sqlalchemy.url', database_url)
+    config.set_main_option("sqlalchemy.url", database_url)
 
 # add your model's MetaData object here
 # for 'autogenerate' support
@@ -77,9 +76,7 @@ def run_migrations_online() -> None:
     )
 
     with connectable.connect() as connection:
-        context.configure(
-            connection=connection, target_metadata=target_metadata
-        )
+        context.configure(connection=connection, target_metadata=target_metadata)
 
         with context.begin_transaction():
             context.run_migrations()

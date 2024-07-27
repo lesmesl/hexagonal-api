@@ -1,8 +1,9 @@
-from fastapi import FastAPI, APIRouter
+from fastapi import APIRouter, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
+from app.config.config import settings
 from app.products.infrastructure.router import router as products_router
 from app.users.infrastructure.router import router as users_router
-from app.config.config import settings
 
 
 def create_app() -> FastAPI:
@@ -24,7 +25,7 @@ def create_app() -> FastAPI:
 
     api_v1 = APIRouter(prefix=settings.API_V1_URL)
     api_v1.include_router(products_router, prefix="/products", tags=["Products"])
-    api_v1.include_router(users_router, prefix="/users", tags=["Users"])
+    api_v1.include_router(users_router, tags=["Users"])
     app.include_router(api_v1)
 
     return app

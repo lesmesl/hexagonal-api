@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
+
 from app.users.domain.model import User
-from typing import Optional
 
 
 class UserRepositoryInterface(ABC):
@@ -10,4 +10,8 @@ class UserRepositoryInterface(ABC):
 
     @abstractmethod
     def create(self, user_data: User) -> User:
+        pass
+
+    @abstractmethod
+    def get_current_user(self, token: str) -> User:
         pass
