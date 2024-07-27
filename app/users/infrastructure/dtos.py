@@ -6,6 +6,13 @@ class UserCreateSchema(BaseModel):
     username: str
     password: str
 
+    def to_user(self) -> User:
+        return User(
+            email=self.email,
+            username=self.username,
+            password=self.password,
+        )
+
 class UserLoginSchema(BaseModel):
     email: EmailStr
     password: str

@@ -16,7 +16,9 @@ class UserUseCase:
         
         hashed_password = get_password_hash(user_data.password)
         user_data.password = hashed_password
-
+        
+        # patrón builder para convertir UserCreateSchema a User antes de llamar al método create de la interfaz UserRepositoryInterface.
+        user = user_data.to_user()
         new_user = self.user_repository.create(user_data)
 
         return UserResponseSchema.from_orm(new_user)
