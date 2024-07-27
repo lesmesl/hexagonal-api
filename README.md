@@ -67,12 +67,13 @@ HEXAGONAL-API/
 │   │   │   ├── delete_product.py     # Caso de uso para eliminar un producto
 │   │   │   ├── get_products.py       # Caso de uso para obtener productos
 │   │   ├── domain/
-│   │   │   ├── model_schemas.py             # Esquemas de Pydantic para productos
+│   │   │   ├── model_schemas.py             # Esquemas y modelos para productos
 │   │   │   ├── repository_interface.py # Interfaces de repositorios para productos
 │   │   ├── infrastructure/
 │   │   │   ├── models.py             # Modelos de SQLAlchemy para productos
 │   │   │   ├── repository.py         # Implementación del repositorio de productos
-│   │   │   ├── router.py             
+│   │   │   ├── dtos.py               # schemas de Pydantic para base de datos de productos
+│   │   │   ├── router.py             # Rutas del API para productos
 │   │   │   ├── __init__.py           
 │   ├── users/
 │   │   ├── application/
@@ -80,12 +81,13 @@ HEXAGONAL-API/
 │   │   │   ├── login_user.py         # Caso de uso para iniciar sesión de usuario
 │   │   │   ├── get_user.py           # Caso de uso para obtener perfil de usuario
 │   │   ├── domain/
-│   │   │   ├── model_schemas.py            # Esquemas de Pydantic para usuarios
+│   │   │   ├── model_schemas.py            # Esquemas y modelos para usuarios
 │   │   │   ├── repository_interface.py # Interfaces de repositorios para usuarios
 │   │   ├── infrastructure/
 │   │   │   ├── models.py             # Modelos de SQLAlchemy para usuarios
 │   │   │   ├── repository.py         # Implementación del repositorio de usuarios
-│   │   │   ├── router.py             
+│   │   │   ├── dtos.py               # schemas de Pydantic para base de datos de usuarios
+│   │   │   ├── router.py             # Rutas del API para usuarios
 │   │   │   ├── __init__.py           # Archivo de inicialización del módulo infrastructure
 │   ├── __init__.py                   
 │   ├── main.py                       # Punto de entrada de la aplicación

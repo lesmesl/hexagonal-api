@@ -1,6 +1,6 @@
-from app.users.domain.model_schemas import UserCreateSchema, UserResponseSchema
 from app.users.domain.repository_interface import UserRepositoryInterface
 from app.config.security import get_password_hash
+from app.users.infrastructure.dtos import UserCreateSchema, UserResponseSchema
 
 class RegisterUser:
     def __init__(self, user_repository: UserRepositoryInterface):

@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
-from app.users.domain.model_schemas import UserCreateSchema, UserResponseSchema
+from app.users.infrastructure.dtos import UserCreateSchema, UserResponseSchema
 from app.users.infrastructure.repository import UserRepository
 from app.users.application.register_user import RegisterUser
 from app.config.database import get_db

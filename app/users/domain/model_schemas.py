@@ -1,18 +1,13 @@
-from pydantic import BaseModel, EmailStr
+from dataclasses import dataclass
 
-class UserCreateSchema(BaseModel):
-    email: EmailStr
+@dataclass
+class UserCreateSchema:
+    email: str
     username: str
     password: str
 
-class UserLoginSchema(BaseModel):
-    email: EmailStr
-    password: str
-
-class UserResponseSchema(BaseModel):
+@dataclass
+class UserResponseSchema:
     id: int
-    email: EmailStr
+    email: str
     username: str
-
-    class Config:
-        from_attributes = True
