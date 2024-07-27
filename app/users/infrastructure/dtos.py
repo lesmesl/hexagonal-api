@@ -1,4 +1,5 @@
 from pydantic import BaseModel, EmailStr
+from app.users.domain.model import User
 
 class UserCreateSchema(BaseModel):
     email: EmailStr

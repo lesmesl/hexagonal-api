@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from app.users.domain.model_schemas import UserCreateSchema, UserResponseSchema
+from app.users.domain.model import User
 from typing import Optional
 
 
@@ -9,5 +9,5 @@ class UserRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    def create(self, user_data: UserCreateSchema) -> UserResponseSchema:
+    def create(self, user_data: User) -> User:
         pass

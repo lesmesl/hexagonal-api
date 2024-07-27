@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, String, Boolean, DateTime
 from app.config.database import Base
 from sqlalchemy.sql import func
 
-class User(Base):
+class UserDTO(Base):
     __tablename__ = "users"
     
     id = Column(Integer, primary_key=True, index=True)

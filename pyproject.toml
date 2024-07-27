@@ -19,6 +19,7 @@ pyjwt = "^2.8.0"
 alembic = "^1.13.2"
 bcrypt = "^4.2.0"
 passlib = "^1.7.4"
+python-jose = "^3.3.0"
 
 
 [tool.poetry.group.dev.dependencies]
