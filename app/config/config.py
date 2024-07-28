@@ -1,9 +1,9 @@
 import os
 
-
+from dotenv import load_dotenv
 
 from app.config import constants as const
-from dotenv import load_dotenv
+
 load_dotenv()
 
 
@@ -15,7 +15,7 @@ class Settings:
     REGISTER_ROUTE: str = const.REGISTER_ROUTE
     LOGIN_ROUTE: str = const.LOGIN_ROUTE
     USERS_ME_ROUTE: str = const.USERS_ME_ROUTE
-    TOKEN_URL: str = f"{API_V1_URL}/{LOGIN_ROUTE}"
+    TOKEN_URL: str = f"{API_V1_URL}{LOGIN_ROUTE}"
     SECRET_KEY: str = os.getenv("SECRET_KEY")
     SQLALCHEMY_DATABASE_URI: str = os.getenv("SQLALCHEMY_DATABASE_URI")
     DATABASE_URL: str = os.getenv("DATABASE_URL")

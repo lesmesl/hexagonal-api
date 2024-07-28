@@ -35,3 +35,4 @@ venv/
 
 #test
 .coverage
+*.txt

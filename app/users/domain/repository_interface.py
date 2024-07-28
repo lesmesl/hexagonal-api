@@ -13,5 +13,5 @@ class UserRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    def get_current_user(self, token: str) -> User:
+    def get_current_user(self, token: str):
         pass

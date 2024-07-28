@@ -28,6 +28,8 @@ pytest = "^8.3.2"
 isort = "^5.13.2"
 flake8 = "^7.1.0"
 autoflake = "^2.3.1"
+pytest-mock = "^3.14.0"
+freezegun = "^1.5.1"
 
 [tool.poetry.scripts]
 lint_and_format = "scripts.lint_and_format:main"

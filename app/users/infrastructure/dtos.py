@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, ConfigDict, EmailStr
 
 from app.users.domain.model import User
 
@@ -15,8 +15,7 @@ class UserCreateSchema(BaseModel):
             password=self.password,
         )
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class UserLoginSchema(BaseModel):
@@ -29,10 +28,11 @@ class UserResponseSchema(BaseModel):
     email: EmailStr
     username: str
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
-class Token(BaseModel):
+class TokenResponseSchema(BaseModel):
     access_token: str
     token_type: str
+
+    model_config = ConfigDict(from_attributes=True)
