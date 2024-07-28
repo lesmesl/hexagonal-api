@@ -1,5 +1,6 @@
 from fastapi import APIRouter
-fro, app.config.config import settings
+
+from app.config.config import settings
 
 router = APIRouter()
 

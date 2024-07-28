@@ -61,7 +61,7 @@ class UserRepository:
                 raise credentials_exception
         except JWTError:
             raise credentials_exception
-        
+
         user = self.get_by_email(payload.get("sub"))
 
         if user is None:

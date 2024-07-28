@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 
+from app.config.config import settings
 from app.config.database import get_db
 from app.users.application.use_cases import UserUseCase, oauth2_scheme
 from app.users.infrastructure.dtos import Token, UserCreateSchema, UserResponseSchema
 from app.users.infrastructure.repository import UserRepository
-from app.config.config import settings
 
 router = APIRouter()
 user_repository = UserRepository(get_db())

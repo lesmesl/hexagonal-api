@@ -1,16 +1,15 @@
 # alembic/env.py
 import os
 import sys
-from logging.config import fileConfig
 
-from sqlalchemy import engine_from_config, pool
-
-from alembic import context
 
 # Agregar la ruta de la aplicación al sys.path
 sys.path.insert(0, os.path.realpath(os.path.join(os.path.dirname(__file__), "..")))
 
-# Importar settings y Base
+from logging.config import fileConfig
+from sqlalchemy import engine_from_config, pool
+from alembic import context
+from app.config.config import settings
 from app.config.database import Base
 
 # Importar los modelos para que Alembic los reconozca
@@ -24,9 +23,13 @@ config = context.config
 fileConfig(config.config_file_name)
 
 # Set the SQLAlchemy URL from settings
-database_url = os.getenv("DATABASE_URL")
+database_url = settings.DATABASE_URL
+
 if database_url:
+    from app.users.infrastructure.models import UserDTO
+    print("database_url ",database_url)
     config.set_main_option("sqlalchemy.url", database_url)
+    print("creada la base de datos personalizada", str(UserDTO))
 
 # add your model's MetaData object here
 # for 'autogenerate' support

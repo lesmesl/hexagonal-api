@@ -32,7 +32,6 @@ autoflake = "^2.3.1"
 [tool.poetry.scripts]
 lint_and_format = "scripts.lint_and_format:main"
 
-
 [tool.autoflake]
 remove-all-unused-imports = true
 remove-unused-variables = true

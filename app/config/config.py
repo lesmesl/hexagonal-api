@@ -1,9 +1,9 @@
 import os
 
-from dotenv import load_dotenv
+
 
 from app.config import constants as const
-
+from dotenv import load_dotenv
 load_dotenv()
 
 
@@ -11,7 +11,8 @@ class Settings:
     PROJECT_NAME: str = const.PROJECT_NAME
     PROJECT_VERSION: str = const.PROJECT_VERSION
     API_V1_URL: str = const.API_V1_URL
-
+    PING_ROUTE: str = const.PING_ROUTE
+    REGISTER_ROUTE: str = const.REGISTER_ROUTE
     LOGIN_ROUTE: str = const.LOGIN_ROUTE
     USERS_ME_ROUTE: str = const.USERS_ME_ROUTE
     TOKEN_URL: str = f"{API_V1_URL}/{LOGIN_ROUTE}"
