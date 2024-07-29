@@ -1,8 +1,9 @@
 from typing import Optional
 
-from pydantic import BaseModel, ConfigDict, validator
+from pydantic import BaseModel, ConfigDict, validator, field_validator
 
-class ProductSchema(BaseModel):
+
+class ProductCreateSchema(BaseModel):
     name: str
     price: float
     in_stock: bool
@@ -10,11 +11,12 @@ class ProductSchema(BaseModel):
 
     model_config = ConfigDict(from_attributes=True)
 
-    @validator("price")
+    @field_validator("price")
     def price_must_be_positive(cls, value):
         if value < 0:
             raise ValueError("Price must be positive")
         return value
 
-class ProductSchemaResponse(ProductSchema):
+
+class ProductResponseSchema(ProductCreateSchema):
     id: int

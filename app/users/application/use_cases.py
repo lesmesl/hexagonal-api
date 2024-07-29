@@ -1,7 +1,7 @@
 from datetime import timedelta
 
 from fastapi import Depends
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.security import OAuth2PasswordRequestForm
 
 from app.config.config import settings
 from app.config.exceptions import (
@@ -15,8 +15,6 @@ from app.users.infrastructure.dtos import (
     UserCreateSchema,
     UserResponseSchema,
 )
-
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl=settings.TOKEN_URL)
 
 
 class UserUseCase:

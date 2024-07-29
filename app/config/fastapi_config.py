@@ -18,7 +18,7 @@ from app.users.infrastructure.router import router as users_router
 def create_app() -> FastAPI:
     app = FastAPI(
         title=settings.PROJECT_NAME,
-        description="API following Hexagonal Architecture principles",
+        description=settings.DESCRIPTION_PROJECT,
         version=settings.PROJECT_VERSION,
         redoc_url=None,
         docs_url="/docs",
@@ -33,8 +33,8 @@ def create_app() -> FastAPI:
     )
 
     api_v1 = APIRouter(prefix=settings.API_V1_URL)
-    api_v1.include_router(products_router, tags=["Products"])
-    api_v1.include_router(users_router, tags=["Users"])
+    api_v1.include_router(products_router)
+    api_v1.include_router(users_router)
     app.include_router(api_v1)
 
     app.add_exception_handler(

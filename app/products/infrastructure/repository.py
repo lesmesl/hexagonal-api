@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from app.config.database import get_db
 from app.config.exceptions import DatabaseException
 from app.products.domain.repository_interface import ProductRepositoryInterface
-from app.products.infrastructure.dtos import ProductSchema, ProductSchemaResponse
+from app.products.infrastructure.dtos import ProductCreateSchema, ProductResponseSchema
 from app.products.infrastructure.models import ProductDTO
 
 
@@ -14,7 +14,7 @@ class DatabaseProductRepository(ProductRepositoryInterface):
     def __init__(self, db: Session = Depends(get_db)):
         self.db = db
 
-    def create(self, product: ProductSchema) -> ProductSchema:
+    def create(self, product: ProductCreateSchema) -> ProductCreateSchema:
         try:
             product_data = product.dict(
                 exclude_unset=True
@@ -23,19 +23,23 @@ class DatabaseProductRepository(ProductRepositoryInterface):
             self.db.add(db_product)
             self.db.commit()
             self.db.refresh(db_product)
-            return ProductSchema.model_validate(db_product)
+            return ProductCreateSchema.model_validate(db_product)
         except Exception as e:
             self.db.rollback()
             raise DatabaseException(f"Error creating products. detail: {str(e)}")
 
-    def get_all(self) -> List[ProductSchemaResponse]:
+    def get_all(self) -> List[ProductResponseSchema]:
         try:
             products = self.db.query(ProductDTO).all()
-            return [ProductSchemaResponse.model_validate(product) for product in products]
+            return [
+                ProductResponseSchema.model_validate(product) for product in products
+            ]
         except Exception as e:
             raise DatabaseException(f"Error getting user by email. detail: {str(e)}")
 
-    def update(self, product_id: int, product: ProductSchema) -> ProductSchema:
+    def update(
+        self, product_id: int, product: ProductCreateSchema
+    ) -> ProductCreateSchema:
         try:
             product_data = product.dict(exclude_unset=True)
             self.db.query(ProductDTO).filter(ProductDTO.id == product_id).update(
@@ -43,7 +47,7 @@ class DatabaseProductRepository(ProductRepositoryInterface):
             )
             self.db.commit()
             updated_product = self.db.query(ProductDTO).get(product_id)
-            return ProductSchema.model_validate(updated_product)
+            return ProductCreateSchema.model_validate(updated_product)
         except Exception as e:
             self.db.rollback()
             raise DatabaseException(f"Error updating product. detail: {str(e)}")

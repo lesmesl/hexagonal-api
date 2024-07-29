@@ -1,7 +1,6 @@
 from typing import Optional
 
 from fastapi import Depends
-from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from sqlalchemy import or_
 from sqlalchemy.orm import Session
@@ -13,8 +12,6 @@ from app.users.domain.model import User
 from app.users.domain.repository_interface import UserRepositoryInterface
 from app.users.infrastructure.dtos import UserCreateSchema, UserResponseSchema
 from app.users.infrastructure.models import UserDTO
-
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"{settings.API_V1_URL}/users/token")
 
 
 class UserRepository(UserRepositoryInterface):
@@ -61,9 +58,7 @@ class UserRepository(UserRepositoryInterface):
         except Exception as e:
             raise DatabaseException(f"Error getting user by username. detail: {str(e)}")
 
-    def get_current_user(
-        self, token: str = Depends(oauth2_scheme)
-    ) -> UserResponseSchema:
+    def get_current_user(self, token: str) -> UserResponseSchema:
         try:
             payload = jwt.decode(
                 token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM]

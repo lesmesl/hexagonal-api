@@ -1,13 +1,15 @@
 import pytest
+from sqlalchemy.orm import Session
+
+from app.config.exceptions import DatabaseException
+from app.users.infrastructure.repository import UserRepository
 
 
 def test_empty_username(mocker):
-    from sqlalchemy.orm import Session
+    """
+    Prueba para verificar que el método get_by_username devuelve None cuando se proporciona un nombre de usuario vacío.
+    """
 
-    from app.config.exceptions import DatabaseException
-    from app.users.infrastructure.repository import UserRepository
-
-    # Mock the database session
     mock_db = mocker.Mock(spec=Session)
     mock_db.query.return_value.filter.return_value.first.return_value = None
 

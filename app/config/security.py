@@ -1,10 +1,27 @@
 from datetime import datetime, timedelta, timezone
 
+from fastapi import Form
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import jwt
 from passlib.context import CryptContext
 
 from app.config.config import settings
 
+
+class OAuth2PasswordRequestFormCustom(OAuth2PasswordRequestForm):
+    def __init__(
+        self,
+        username: str = Form(...),
+        password: str = Form(...),
+    ):
+        self.username = username
+        self.password = password
+        self.scopes = ""
+        self.client_id = None
+        self.client_secret = None
+
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl=settings.TOKEN_URL)
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 

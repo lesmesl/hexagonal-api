@@ -1,7 +1,10 @@
 from app.config.config import settings
 
 
-def test_register_success(client_with_db, data_login_user):
+def test_register_user_success(client_with_db, data_login_user):
+    """
+    Prueba que un usuario se registre con éxito.
+    """
     email, username, password = data_login_user
 
     response = client_with_db.post(
@@ -9,10 +12,13 @@ def test_register_success(client_with_db, data_login_user):
         json={"email": email, "username": username, "password": password},
         headers={"accept": "application/json", "Content-Type": "application/json"},
     )
-    assert response.status_code == 200
+    assert response.status_code == 201
 
 
-def test_login_success(client_with_db, create_test_user, data_login_user):
+def test_login_user_success(client_with_db, create_test_user, data_login_user):
+    """
+    Prueba que un usuario inicie sesión con éxito.
+    """
     email, username, password = data_login_user
 
     # Registrar el usuario de prueba
@@ -40,7 +46,10 @@ def test_login_success(client_with_db, create_test_user, data_login_user):
     assert response.json()["token_type"] == "bearer"
 
 
-def test_login_failure(client_with_db):
+def test_login_user_failure(client_with_db):
+    """
+    Prueba que el inicio de sesión falle con credenciales incorrectas.
+    """
     response = client_with_db.post(
         f"{settings.API_V1_URL}{settings.LOGIN_ROUTE}",
         data={
@@ -61,7 +70,31 @@ def test_login_failure(client_with_db):
     assert response.json() == {"detail": "Incorrect username or password"}
 
 
-def test_read_users_me(client_with_db, create_test_user, data_login_user):
+def test_register_user_already_registered(
+    client_with_db, data_login_user, create_test_user
+):
+    """
+    Prueba que no se pueda registrar un usuario con un email o username ya registrado.
+    """
+    email, username, password = data_login_user
+
+    # Registrar el usuario de prueba
+    create_test_user(email, username, password)
+
+    response = client_with_db.post(
+        f"{settings.API_V1_URL}{settings.REGISTER_ROUTE}",
+        json={"email": email, "username": username, "password": password},
+        headers={"accept": "application/json", "Content-Type": "application/json"},
+    )
+
+    assert response.status_code == 409
+    assert response.json() == {"detail": "Email or Username already registered"}
+
+
+def test_get_current_user_success(client_with_db, create_test_user, data_login_user):
+    """
+    Prueba que se obtenga la información del usuario autenticado con éxito.
+    """
     email, username, password = data_login_user
 
     # Registrar el usuario de prueba
@@ -102,7 +135,10 @@ def test_read_users_me(client_with_db, create_test_user, data_login_user):
     assert response.status_code == 200
 
 
-def test_read_users_me_no_token(client_with_db):
+def test_get_current_user_no_token(client_with_db):
+    """
+    Prueba que obtener la información del usuario falle sin token de autenticación.
+    """
     response = client_with_db.get(
         f"{settings.API_V1_URL}{settings.USERS_ME_ROUTE}",
         headers={"accept": "application/json"},

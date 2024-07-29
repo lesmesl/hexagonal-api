@@ -18,6 +18,7 @@ class Settings:
     GET_PRODUCTS_ROUTE: str = const.GET_PRODUCTS_ROUTE
     UPDATE_PRODUCTS_ROUTE: str = const.UPDATE_PRODUCTS_ROUTE
     DELETE_PRODUCTS_ROUTE: str = const.DELETE_PRODUCTS_ROUTE
+    DESCRIPTION_PROJECT: str = const.DESCRIPTION_PROJECT
     TOKEN_URL: str = f"{API_V1_URL}{LOGIN_ROUTE}"
     SECRET_KEY: str = os.getenv("SECRET_KEY")
     SQLALCHEMY_DATABASE_URI: str = os.getenv("SQLALCHEMY_DATABASE_URI")
@@ -26,6 +27,7 @@ class Settings:
     DEBUG: bool = True
     ACCESS_TOKEN_EXPIRE_MINUTES: int = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 30))
     ALGORITHM: str = os.getenv("ALGORITHM", "HS256")
+    TEST_DATABASE_URL: str = const.TEST_DATABASE_URL
 
 
 settings = Settings

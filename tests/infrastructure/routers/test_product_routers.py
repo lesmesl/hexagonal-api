@@ -2,7 +2,9 @@ from app.config.config import settings
 
 
 def test_create_product_success(client_with_db, test_login_token):
-
+    """
+    Prueba que un producto se cree con éxito cuando el usuario está autenticado.
+    """
     token = test_login_token
 
     product_data = {
@@ -30,7 +32,9 @@ def test_create_product_success(client_with_db, test_login_token):
 
 
 def test_create_product_invalid_data(client_with_db, test_login_token):
-
+    """
+    Prueba que la creación de un producto falle con datos inválidos.
+    """
     token = test_login_token
 
     product_data = {
@@ -41,7 +45,7 @@ def test_create_product_invalid_data(client_with_db, test_login_token):
     }
 
     response = client_with_db.post(
-        f"{settings.API_V1_URL}{settings.GET_PRODUCTS_ROUTE}",
+        f"{settings.API_V1_URL}{settings.REGISTER_PRODUCTS_ROUTE}",
         json=product_data,
         headers={
             "accept": "application/json",
@@ -54,7 +58,11 @@ def test_create_product_invalid_data(client_with_db, test_login_token):
     response_json = response.json()
     assert "detail" in response_json
 
+
 def test_create_product_unauthorized(client_with_db):
+    """
+    Prueba que la creación de un producto falle cuando el usuario no está autenticado.
+    """
     product_data = {
         "name": "Test Product",
         "description": "Test Description",
@@ -75,10 +83,12 @@ def test_create_product_unauthorized(client_with_db):
     assert "detail" in response_json
 
 
-def test_get_all_products_unauthorized(
+def test_get_all_products_success(
     client_with_db, test_create_product_success, data_product_success
 ):
-
+    """
+    Prueba que se obtengan todos los productos con éxito.
+    """
     response = client_with_db.get(
         f"{settings.API_V1_URL}{settings.GET_PRODUCTS_ROUTE}",
         headers={"accept": "application/json", "Content-Type": "application/json"},
@@ -93,12 +103,13 @@ def test_get_all_products_unauthorized(
     assert response_json[0]["price"] == data_product_success["price"]
     assert response_json[0]["in_stock"] == data_product_success["in_stock"]
 
-# update_product
 
 def test_update_product_success(
     client_with_db, test_create_product_success, test_login_token
 ):
-
+    """
+    Prueba que un producto se actualice con éxito cuando el usuario está autenticado.
+    """
     product_data = {
         "id": 1,
         "name": "Test Product Updated",
@@ -127,7 +138,9 @@ def test_update_product_success(
 def test_update_product_invalid_data(
     client_with_db, test_create_product_success, test_login_token
 ):
-
+    """
+    Prueba que la actualización de un producto falle con un dato inválido.
+    """
     token = test_login_token
 
     product_data = {
@@ -152,12 +165,13 @@ def test_update_product_invalid_data(
     response_json = response.json()
     assert "detail" in response_json
 
-# delete_product
 
 def test_delete_product_success(
     client_with_db, test_create_product_success, test_login_token
 ):
-
+    """
+    Prueba que un producto se elimine con éxito cuando el usuario está autenticado.
+    """
     product_id = 1
     response = client_with_db.delete(
         f"{settings.API_V1_URL}{settings.DELETE_PRODUCTS_ROUTE.format(product_id=product_id)}",
@@ -170,7 +184,11 @@ def test_delete_product_success(
 
     assert response.status_code == 204  # No content
 
+
 def test_delete_product_unauthorized(client_with_db):
+    """
+    Prueba que la eliminación de un producto falle cuando el usuario no está autenticado.
+    """
     product_id = 1
     response = client_with_db.delete(
         f"{settings.API_V1_URL}{settings.DELETE_PRODUCTS_ROUTE.format(product_id=product_id)}",

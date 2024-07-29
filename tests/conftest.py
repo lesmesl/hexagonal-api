@@ -11,9 +11,8 @@ from app.config.database import Base, get_db
 from app.main import app
 
 # Configuración de la base de datos para pruebas
-TEST_DATABASE_URL = "sqlite:///./test.db"
 test_engine = create_engine(
-    TEST_DATABASE_URL, connect_args={"check_same_thread": False}
+    settings.TEST_DATABASE_URL, connect_args={"check_same_thread": False}
 )
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=test_engine)
 
@@ -58,7 +57,7 @@ def create_test_user(client_with_db):
             json={"email": email, "username": username, "password": password},
             headers={"accept": "application/json", "Content-Type": "application/json"},
         )
-        assert response.status_code == 200
+        assert response.status_code == 201
 
     return _create_test_user
 

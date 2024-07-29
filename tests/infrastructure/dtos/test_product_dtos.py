@@ -2,19 +2,21 @@ import pytest
 from pydantic import ValidationError
 
 from app.products.application.use_cases import ProductUseCase
-from app.products.infrastructure.dtos import ProductSchema
+from app.products.infrastructure.dtos import ProductCreateSchema
 from app.products.infrastructure.repository import DatabaseProductRepository
 
 
-# Test para creación exitosa de un producto con datos válidos
-def test_create_product_success(mocker):
+def test_product_schema_create_success(mocker):
+    """
+    Prueba que un ProductCreateSchema se cree con éxito con datos válidos.
+    """
     product_data = {
         "name": "Test Product",
         "price": 10.99,
         "in_stock": True,
         "description": "A test product",
     }
-    product = ProductSchema(**product_data)
+    product = ProductCreateSchema(**product_data)
 
     mock_db = mocker.Mock()
     mock_repo = mocker.Mock(DatabaseProductRepository)
@@ -35,35 +37,34 @@ def test_create_product_success(mocker):
     assert response == product
 
 
-# Test para manejo de datos inválidos de producto
-def test_create_product_invalid_data():
-    # Datos de producto inválidos
+def test_product_schema_create_invalid_name():
+    """
+    Prueba que la creación de un ProductCreateSchema falle con un nombre inválido.
+    """
     invalid_product_data = {
-        "name": 12123,
+        "name": 12123,  # Nombre inválido, debería ser una cadena de texto
         "price": 10.99,
         "in_stock": True,
         "description": "",
     }
 
-    # Prueba de validación
     with pytest.raises(ValidationError):
-        # Intentar crear un ProductSchema con datos inválidos debería lanzar ValidationError
-        ProductSchema(**invalid_product_data)
+        ProductCreateSchema(**invalid_product_data)
 
 
-def test_create_product_invalid_type_price():
-    # Datos de producto inválidos
+def test_product_schema_create_invalid_price():
+    """
+    Prueba que la creación de un ProductCreateSchema falle con un precio negativo.
+    """
     invalid_product_data = {
         "name": "test",
-        "price": -10.99,
+        "price": -10.99,  # Precio inválido, debería ser positivo
         "in_stock": True,
         "description": "",
     }
 
-    # Prueba de validación
     with pytest.raises(ValidationError) as exc_info:
-        # Intentar crear un ProductSchema con datos inválidos debería lanzar ValidationError
-        ProductSchema(**invalid_product_data)
+        ProductCreateSchema(**invalid_product_data)
 
     error = exc_info.value.errors()
     assert error[0]["loc"] == ("price",)
