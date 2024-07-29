@@ -1,15 +1,17 @@
 import pytest
 
+
 def test_empty_username(mocker):
-    from app.users.infrastructure.repository import UserRepository
-    from app.config.exceptions import DatabaseException
     from sqlalchemy.orm import Session
+
+    from app.config.exceptions import DatabaseException
+    from app.users.infrastructure.repository import UserRepository
 
     # Mock the database session
     mock_db = mocker.Mock(spec=Session)
     mock_db.query.return_value.filter.return_value.first.return_value = None
 
-    username = "" 
+    username = ""
     repo = UserRepository(mock_db)
 
     try:

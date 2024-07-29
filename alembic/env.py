@@ -27,11 +27,10 @@ fileConfig(config.config_file_name)
 database_url = settings.DATABASE_URL
 
 if database_url:
-    from app.users.infrastructure.models import UserDTO
+    from app.products.infrastructure.models import ProductDTO  # noqa
+    from app.users.infrastructure.models import UserDTO  # noqa
 
-    print("database_url ", database_url)
     config.set_main_option("sqlalchemy.url", database_url)
-    print("creada la base de datos personalizada", str(UserDTO))
 
 # add your model's MetaData object here
 # for 'autogenerate' support

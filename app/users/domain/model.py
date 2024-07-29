@@ -1,8 +1,10 @@
 from dataclasses import dataclass
 
+from pydantic import EmailStr
+
 
 @dataclass
 class User:
-    email: str
     username: str
+    email: EmailStr
     password: str

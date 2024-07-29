@@ -8,6 +8,7 @@ from .exceptions import (
     UserAlreadyExistsException,
 )
 
+
 def user_already_exists_exception_handler(
     request: Request, exc: UserAlreadyExistsException
 ):

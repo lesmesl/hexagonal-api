@@ -13,8 +13,6 @@ from app.users.infrastructure.dtos import (
 from app.users.infrastructure.repository import UserRepository
 
 router = APIRouter()
-user_repository = UserRepository(get_db())
-use_cases = UserUseCase(user_repository)
 
 
 @router.post(settings.REGISTER_ROUTE, response_model=UserResponseSchema)

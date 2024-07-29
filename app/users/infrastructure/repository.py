@@ -10,13 +10,14 @@ from app.config.config import settings
 from app.config.database import get_db
 from app.config.exceptions import DatabaseException, InvalidTokenException
 from app.users.domain.model import User
+from app.users.domain.repository_interface import UserRepositoryInterface
 from app.users.infrastructure.dtos import UserCreateSchema, UserResponseSchema
 from app.users.infrastructure.models import UserDTO
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"{settings.API_V1_URL}/users/token")
 
 
-class UserRepository:
+class UserRepository(UserRepositoryInterface):
     def __init__(self, db: Session = Depends(get_db)):
         self.db = db
 
