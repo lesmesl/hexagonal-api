@@ -1,14 +1,11 @@
 # Hexagonal-API
 API RESTful con FastAPI y SQLite, con autenticación y autorización (JWT), y pruebas unitarias (pytest). Implementada con Arquitectura Hexagonal, Vertical Slice y Screaming Architecture.
 
-## Requisitos
+<img src="docs/diagram_infra.jpeg" alt="Diagrama de arquitectura" width="300"/>
+
+## Requisitos previos
 
 - Python 3.9.6
-- FastAPI
-- SQLite
-- Pydantic
-- Pytest
-- JWT
 - Poetry
 
 ## Instalación y Ejecución
@@ -39,73 +36,84 @@ API RESTful con FastAPI y SQLite, con autenticación y autorización (JWT), y pr
    ```
 6. Iniciar el proyecto:
    ``` bash
-   poetry run uvicorn app.main:app --reload --port 8000
+   poetry run uvicorn app.main:app --reload --port 8001
+   ```
+7. Documentación de la API:
+   ``` bash
+   http://localhost:8001/docs
    ```
 
 
-## Pruebas
+## Pruebas unitarias
 1. Ejecuta las pruebas unitarias:
    ``` bash
    pytest
    ```
-2. Ejecuta el linter y formateador de código:
+
+## Utilidades
+1. Ejecuta el linter y formateador de código:
    ``` bash
    poetry run lint_and_format
    ```
-   
+2. Ruta de colecciones de documentación API Postman:
+   ``` bash
+   docs/collections/
+   ```
+
+ 
 ## Estructura del Proyecto
 ``` bash
 HEXAGONAL-API/
 ├── app/
 │   ├── config/
-│   │   ├── config.py                 # Configuración general de la aplicación y sus variables de entorno
+│   │   ├── config.py                 # Declaración de las constantes y variables necesarias
+│   │   ├── constants.py              # Definición de constantes utilizadas en la aplicación
 │   │   ├── database.py               # Configuración de la base de datos y creación de sesiones
+│   │   ├── error_handlers.py         # Manejadores de errores personalizados
+│   │   ├── exceptions.py             # Definición de excepciones personalizadas
+│   │   ├── fastapi_config.py         # Configuración específica de FastAPI
 │   │   ├── security.py               # Configuración de seguridad (JWT, OAuth2, etc.)
-│   │   ├── fastapi_config.py         # Configuración de FastAPI
-│   │   ├── constants.py              # Constantes de la aplicación
-│   │   ├── __init__.py                
 │   ├── products/
 │   │   ├── application/
-│   │   │   ├── use_cases.py          # Contiene los diferentes casos de uso de productos
+│   │   │   ├── use_cases.py          # Casos de uso relacionados con productos
 │   │   ├── domain/
-│   │   │   ├── model.py                  # Contiene la entidad que define el producto
-│   │   │   ├── repository_interface.py   # Interfaces de repositorios para productos
+│   │   │   ├── model.py              # Entidad que define el producto
+│   │   │   ├── repository_interface.py # Interfaces de repositorios para productos
 │   │   ├── infrastructure/
+│   │   │   ├── dtos.py               # Schemas de Pydantic para productos
 │   │   │   ├── models.py             # Modelos de SQLAlchemy para productos
 │   │   │   ├── repository.py         # Implementación del repositorio de productos
-│   │   │   ├── dtos.py               # schemas de Pydantic para base de datos de productos
 │   │   │   ├── router.py             # Rutas del API para productos
-│   │   │   ├── __init__.py           
 │   ├── users/
 │   │   ├── application/
-│   │   │   ├── use_cases.py          # Contiene los diferentes casos de uso de usario
+│   │   │   ├── use_cases.py          # Casos de uso relacionados con usuarios
 │   │   ├── domain/
-│   │   │   ├── model.py                  # Contiene la entidad que define el usuario
-│   │   │   ├── repository_interface.py   # Interfaces de repositorios para usuarios
+│   │   │   ├── model.py              # Entidad que define el usuario
+│   │   │   ├── repository_interface.py # Interfaces de repositorios para usuarios
 │   │   ├── infrastructure/
+│   │   │   ├── dtos.py               # Schemas de Pydantic para usuarios
 │   │   │   ├── models.py             # Modelos de SQLAlchemy para usuarios
 │   │   │   ├── repository.py         # Implementación del repositorio de usuarios
-│   │   │   ├── dtos.py               # schemas de Pydantic para base de datos de usuarios
 │   │   │   ├── router.py             # Rutas del API para usuarios
-│   │   │   ├── __init__.py           
-│   ├── __init__.py                   
+│   ├── __init__.py                   # Inicialización del paquete
 │   ├── main.py                       # Punto de entrada de la aplicación
 ├── tests/
 │   ├── conftest.py                   # Configuraciones para las pruebas
-│   ├── test_users.py                 # Pruebas para el módulo de usuarios
-│   ├── test_products.py              # Pruebas para el módulo de productos
-│   ├── test_routers_ping.py          # Pruebas para el router de ping
-│   └── __init__.py                   # Archivo de inicialización para el módulo de pruebas
+│   ├── application/                  # Pruebas relacionadas con la capa de aplicación
+│   ├── config/                       # Pruebas relacionadas con la configuración
+│   ├── infrastructure/               # Pruebas relacionadas con la infraestructura
+│   └── __init__.py                   # Inicialización del paquete de pruebas
 ├── alembic/
 │   ├── versions/                     # Carpeta donde se almacenan las migraciones
-│   ├── env.py                        # Archivo de entorno para Alembic
+│   ├── env.py                        # Archivo de entorno para Alembic donde se indican los modelos a crear
 │   └── script.py.mako                # Plantilla para scripts de migración
 ├── scripts/                          # Scripts de inicialización o mantenimiento
-│   ├── lint_and_format.py.py         # Script de desarrollo para aplicar linter y formateer
+│   ├── lint_and_format.py            # Script de desarrollo para aplicar linter y formatear código
 ├── docs/                             # Documentación adicional
+│   ├── collections/                  # Colecciones de documentación
+│   ├── diagram_infra.png             # Diagramas de infraestructura
 ├── alembic.ini                       # Archivo de configuración de Alembic
 ├── pyproject.toml                    # Archivo de configuración de Poetry
 ├── README.md                         # Documentación del proyecto
-├── .env                              # Archivo de variables de entorno
 └── .env_example                      # Archivo de ejemplo de variables de entorno
 ``` 

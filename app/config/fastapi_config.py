@@ -3,11 +3,13 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.config.config import settings
 from app.config.error_handlers import (
+    database_exception_no_found_handler,
     generic_exception_handler,
     invalid_credentials_exception_handler,
     user_already_exists_exception_handler,
 )
 from app.config.exceptions import (
+    DatabaseExceptionNotFound,
     InvalidCredentialsException,
     UserAlreadyExistsException,
 )
@@ -42,6 +44,9 @@ def create_app() -> FastAPI:
     )
     app.add_exception_handler(
         InvalidCredentialsException, invalid_credentials_exception_handler
+    )
+    app.add_exception_handler(
+        DatabaseExceptionNotFound, database_exception_no_found_handler
     )
     app.add_exception_handler(Exception, generic_exception_handler)
 

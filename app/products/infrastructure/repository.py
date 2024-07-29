@@ -4,7 +4,7 @@ from fastapi import Depends
 from sqlalchemy.orm import Session
 
 from app.config.database import get_db
-from app.config.exceptions import DatabaseException
+from app.config.exceptions import DatabaseException, DatabaseExceptionNotFound
 from app.products.domain.repository_interface import ProductRepositoryInterface
 from app.products.infrastructure.dtos import ProductCreateSchema, ProductResponseSchema
 from app.products.infrastructure.models import ProductDTO
@@ -16,7 +16,7 @@ class DatabaseProductRepository(ProductRepositoryInterface):
 
     def create(self, product: ProductCreateSchema) -> ProductCreateSchema:
         try:
-            product_data = product.dict(
+            product_data = product.model_dump(
                 exclude_unset=True
             )  # Excluir campos no establecidos
             db_product = ProductDTO(**product_data)
@@ -40,22 +40,40 @@ class DatabaseProductRepository(ProductRepositoryInterface):
     def update(
         self, product_id: int, product: ProductCreateSchema
     ) -> ProductCreateSchema:
+        
+        self._validate_product_exists(product_id)
         try:
-            product_data = product.dict(exclude_unset=True)
+            product_data = product.model_dump(exclude_unset=True)
             self.db.query(ProductDTO).filter(ProductDTO.id == product_id).update(
                 product_data
             )
             self.db.commit()
-            updated_product = self.db.query(ProductDTO).get(product_id)
+            updated_product = self._get_product_by_id(product_id)
             return ProductCreateSchema.model_validate(updated_product)
         except Exception as e:
             self.db.rollback()
             raise DatabaseException(f"Error updating product. detail: {str(e)}")
 
     def delete(self, product_id: int) -> None:
+        self._validate_product_exists(product_id)
         try:
+            
             self.db.query(ProductDTO).filter(ProductDTO.id == product_id).delete()
             self.db.commit()
         except Exception as e:
             self.db.rollback()
             raise DatabaseException(f"Error deleting product. detail: {str(e)}")
+
+    def _find_product_by_id(self, product_id: int) -> ProductDTO:
+        return self.db.query(ProductDTO).filter(ProductDTO.id == product_id).first()
+
+    def _get_product_by_id(self, product_id: int) -> ProductDTO:
+        product = self._find_product_by_id(product_id)
+        if not product:
+            raise DatabaseExceptionNotFound(f"Product with id {product_id} not found")
+        return product
+
+    def _validate_product_exists(self, product_id: int) -> None:
+        product = self._find_product_by_id(product_id)
+        if not product:
+            raise DatabaseExceptionNotFound(f"Product with id {product_id} not found")

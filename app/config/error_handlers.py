@@ -43,6 +43,13 @@ def database_exception_handler(request: Request, exc: DatabaseException):
     )
 
 
+def database_exception_no_found_handler(request: Request, exc: DatabaseException):
+    return JSONResponse(
+        status_code=status.HTTP_404_NOT_FOUND,
+        content={"detail": str(exc)},
+    )
+
+
 def generic_exception_handler(request: Request, exc: Exception):
     return JSONResponse(
         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,

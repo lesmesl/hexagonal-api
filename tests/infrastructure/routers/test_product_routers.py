@@ -165,6 +165,32 @@ def test_update_product_invalid_data(
     response_json = response.json()
     assert "detail" in response_json
 
+def test_update_product_id_not_found(test_login_token, client_with_db):
+    """
+    Prueba que la actualización de un producto falle cuando el producto no existe
+    """
+    product_data = {
+        "id": 23,
+        "name": "Test Product Updated",
+        "price": 10.2,
+        "in_stock": True,
+        "description": "Test Description Updated",
+    }
+    product_id = product_data["id"]
+    response = client_with_db.put(
+        f"{settings.API_V1_URL}{settings.UPDATE_PRODUCTS_ROUTE.format(product_id=product_id)}",
+        json=product_data,
+        headers={
+            "accept": "application/json",
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {test_login_token}",
+        },
+    )
+
+    assert response.status_code == 404  # Not Found
+    response_json = response.json()
+    assert "detail" in response_json
+    assert response_json["detail"] == "Product with id 23 not found"
 
 def test_delete_product_success(
     client_with_db, test_create_product_success, test_login_token
@@ -201,3 +227,22 @@ def test_delete_product_unauthorized(client_with_db):
     assert response.status_code == 401  # Unauthorized
     response_json = response.json()
     assert "detail" in response_json
+
+def test_delete_product_id_not_found(test_login_token, client_with_db,):
+    """
+    Prueba que la eliminación de un producto falle cuando el producto no existe
+    """
+    product_id = 23
+    response = client_with_db.delete(
+        f"{settings.API_V1_URL}{settings.DELETE_PRODUCTS_ROUTE.format(product_id=product_id)}",
+        headers={
+            "accept": "application/json",
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {test_login_token}",
+        },
+    )
+
+    assert response.status_code == 404  # Not Found
+    response_json = response.json()
+    assert "detail" in response_json
+    assert response_json["detail"] == "Product with id 23 not found"
