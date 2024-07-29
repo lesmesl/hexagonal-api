@@ -1,4 +1,6 @@
 # tests/conftest.py
+import uuid
+
 import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
@@ -59,3 +61,68 @@ def create_test_user(client_with_db):
         assert response.status_code == 200
 
     return _create_test_user
+
+
+@pytest.fixture
+def data_login_user():
+    email = f"testuser{uuid.uuid4()}@example.com"
+    username = f"testuser{uuid.uuid4()}"
+    password = "testpassword"
+    return email, username, password
+
+
+@pytest.fixture
+def data_product_success():
+    return {
+        "name": "Test Product",
+        "price": 10.2,
+        "in_stock": True,
+        "description": "description",
+    }
+
+
+@pytest.fixture
+def test_login_token(client_with_db, create_test_user, data_login_user):
+
+    email, username, password = data_login_user
+
+    # Registrar el usuario de prueba
+    create_test_user(email, username, password)
+
+    # Iniciar sesión con el usuario de prueba para obtener el token de acceso
+    response = client_with_db.post(
+        f"{settings.API_V1_URL}{settings.LOGIN_ROUTE}",
+        data={
+            "grant_type": "password",
+            "username": username,
+            "password": password,
+            "scope": "",
+            "client_id": "",
+            "client_secret": "",
+        },
+        headers={
+            "accept": "application/json",
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+    )
+
+    response_json = response.json()
+    return response_json.get("access_token")
+
+
+@pytest.fixture
+def test_create_product_success(client_with_db, test_login_token, data_product_success):
+
+    token = test_login_token
+
+    response = client_with_db.post(
+        f"{settings.API_V1_URL}{settings.REGISTER_PRODUCTS_ROUTE}",
+        json=data_product_success,
+        headers={
+            "accept": "application/json",
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {token}",
+        },
+    )
+
+    assert response.status_code == 201

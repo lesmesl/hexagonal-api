@@ -33,7 +33,7 @@ def create_app() -> FastAPI:
     )
 
     api_v1 = APIRouter(prefix=settings.API_V1_URL)
-    api_v1.include_router(products_router, prefix="/products", tags=["Products"])
+    api_v1.include_router(products_router, tags=["Products"])
     api_v1.include_router(users_router, tags=["Users"])
     app.include_router(api_v1)
 

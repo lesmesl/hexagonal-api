@@ -1,12 +1,8 @@
-import uuid
-
 from app.config.config import settings
 
 
-def test_register_success(client_with_db):
-    email = f"testuser{uuid.uuid4()}@example.com"
-    username = f"testuser{uuid.uuid4()}"
-    password = "testpassword"
+def test_register_success(client_with_db, data_login_user):
+    email, username, password = data_login_user
 
     response = client_with_db.post(
         f"{settings.API_V1_URL}{settings.REGISTER_ROUTE}",
@@ -16,10 +12,8 @@ def test_register_success(client_with_db):
     assert response.status_code == 200
 
 
-def test_login_success(client_with_db, create_test_user):
-    email = f"testuser{uuid.uuid4()}@example.com"
-    username = f"testuser{uuid.uuid4()}"
-    password = "testpassword"
+def test_login_success(client_with_db, create_test_user, data_login_user):
+    email, username, password = data_login_user
 
     # Registrar el usuario de prueba
     create_test_user(email, username, password)
@@ -67,10 +61,8 @@ def test_login_failure(client_with_db):
     assert response.json() == {"detail": "Incorrect username or password"}
 
 
-def test_read_users_me(client_with_db, create_test_user):
-    email = f"testuser{uuid.uuid4()}@example.com"
-    username = f"testuser{uuid.uuid4()}"
-    password = "testpassword"
+def test_read_users_me(client_with_db, create_test_user, data_login_user):
+    email, username, password = data_login_user
 
     # Registrar el usuario de prueba
     create_test_user(email, username, password)
@@ -108,12 +100,6 @@ def test_read_users_me(client_with_db, create_test_user):
     )
 
     assert response.status_code == 200
-
-
-def test_users_ping_no_auth(client_with_db):
-    response = client_with_db.get(f"{settings.API_V1_URL}/ping")
-    assert response.status_code == 401
-    assert response.json() == {"detail": "Not authenticated"}
 
 
 def test_read_users_me_no_token(client_with_db):

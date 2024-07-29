@@ -1,6 +1,6 @@
 from typing import List
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Security, status
 from sqlalchemy.orm import Session
 
 from app.config.config import settings
@@ -13,23 +13,27 @@ from app.users.application.use_cases import oauth2_scheme
 router = APIRouter()
 
 
-@router.get(settings.PING_ROUTE)
-async def test_products():
-    return {"message": "Products pong"}
-
-
-@router.post("/products/", response_model=ProductSchema)
+@router.post(
+    settings.REGISTER_PRODUCTS_ROUTE,
+    response_model=ProductSchema,
+    status_code=status.HTTP_201_CREATED,
+    dependencies=[Security(oauth2_scheme)],
+)
 def create_product(
     product: ProductSchema,
-    token: str = Depends(oauth2_scheme),
     db: Session = Depends(get_db),
 ):
     repository = DatabaseProductRepository(db)
     use_case = ProductUseCase(repository)
+
     return use_case.create_product(product)
 
 
-@router.get("/products/", response_model=List[ProductSchema])
+@router.get(
+    settings.GET_PRODUCTS_ROUTE,
+    response_model=List[ProductSchema],
+    status_code=status.HTTP_200_OK,
+)
 def get_all_products(db: Session = Depends(get_db)):
     repository = DatabaseProductRepository(db)
     use_case = ProductUseCase(repository)

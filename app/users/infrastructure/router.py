@@ -38,8 +38,3 @@ def read_users_me(token: str = Depends(oauth2_scheme), db: Session = Depends(get
     use_cases = UserUseCase(user_repository)
     current_user = use_cases.get_current_user(token)
     return current_user
-
-
-@router.get(settings.PING_ROUTE)
-def ping(current_user: str = Depends(oauth2_scheme)):
-    return {"message": "pong"}
