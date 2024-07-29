@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "8119a00f-750b-4fd8-8101-747778b58c7d",
+		"_postman_id": "1553518d-0bfe-4600-90ab-37f82d76be2f",
 		"name": "API HEXAGONAL",
 		"description": "API following Hexagonal Architecture principles",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "25556599"
+		"_exporter_id": "30444108"
 	},
 	"item": [
 		{
@@ -13,6 +13,76 @@
 				{
 					"name": "Users",
 					"item": [
+						{
+							"name": "Register User",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"email@mail.com\",\n  \"username\": \"user-test\",\n  \"password\": \"1236985\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Register User email error",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"emailmail.com\",\n  \"username\": \"user-test\",\n  \"password\": \"1236985\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
 						{
 							"name": "Login For Access Token",
 							"event": [
@@ -127,70 +197,12 @@
 								}
 							},
 							"response": []
-						},
-						{
-							"name": "Register User",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									},
-									{
-										"key": "Accept",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n  \"email\": \"email@mail.com\",\n  \"username\": \"user-test\",\n  \"password\": \"1236985\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/register",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"register"
-									]
-								}
-							},
-							"response": []
 						}
 					]
 				},
 				{
 					"name": "Products",
 					"item": [
-						{
-							"name": "Test Products",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json"
-									}
-								],
-								"url": {
-									"raw": "{{baseUrl}}/products/ping",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"products",
-										"ping"
-									]
-								}
-							},
-							"response": []
-						},
 						{
 							"name": "Create Product",
 							"request": {
@@ -208,7 +220,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"name\": \"string\",\r\n  \"price\": 0,\r\n  \"in_stock\": true,\r\n  \"description\": \"string\"\r\n}",
+									"raw": "{\r\n  \"name\": \"pollo\",\r\n  \"price\": 27000.2,\r\n  \"in_stock\": true,\r\n  \"description\": \"Bienvenido\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -222,6 +234,39 @@
 									],
 									"path": [
 										"products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all products",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/products/1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										"1"
 									]
 								}
 							},
@@ -244,7 +289,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"id\":\"1\",\r\n  \"name\": \"data1\",\r\n  \"price\": 0,\r\n  \"in_stock\": true,\r\n  \"description\": \"string\"\r\n}",
+									"raw": "{\r\n  \"name\": \"Pollo con gasesosa\",\r\n  \"price\": 30000.3,\r\n  \"in_stock\": true,\r\n  \"description\": \"Familiar\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -265,7 +310,81 @@
 							"response": []
 						},
 						{
-							"name": "Update product Copy",
+							"name": "Update product not found",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Pollo con gasesosa\",\r\n  \"price\": 30000.3,\r\n  \"in_stock\": true,\r\n  \"description\": \"Familiar\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/products/5",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										"5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete product",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/products/1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete product not found",
 							"request": {
 								"auth": {
 									"type": "bearer",
