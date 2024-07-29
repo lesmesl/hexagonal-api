@@ -25,7 +25,7 @@ API RESTful con FastAPI y SQLite, con autenticación y autorización (JWT), y pr
 4. Crea el archivo de variables de entorno .env y agrega tus configuraciones:
 
    ``` bash
-    DATABASE_URL=sqlite:///./test.db
+    DATABASE_URL=sqlite:///./api.db
     SECRET_KEY=tu_secreto
     ALGORITHM=HS256
     ACCESS_TOKEN_EXPIRE_MINUTES=30
@@ -42,6 +42,90 @@ API RESTful con FastAPI y SQLite, con autenticación y autorización (JWT), y pr
    ``` bash
    http://localhost:8001/docs
    ```
+
+
+## Documentación de Endpoints
+
+### Productos
+
+- **Crear Producto**
+  - **URL:** `{{baseUrl}}/products`
+  - **Método:** `POST`
+  - **Autenticación:** Bearer Token
+  - **Cuerpo de la solicitud:**
+    ```json
+    {
+      "name": "pollo",
+      "price": 27000.2,
+      "in_stock": true,
+      "description": "Bienvenido"
+    }
+    ```
+  - **Descripción:** Crea un nuevo producto en la base de datos.
+
+- **Obtener Todos los Productos**
+  - **URL:** `{{baseUrl}}/products`
+  - **Método:** `GET`
+  - **Autenticación:** No requerida
+  - **Descripción:** Obtiene una lista de todos los productos.
+
+- **Actualizar Producto**
+  - **URL:** `{{baseUrl}}/products/{id}`
+  - **Método:** `PUT`
+  - **Autenticación:** Bearer Token
+  - **Cuerpo de la solicitud:**
+    ```json
+    {
+      "name": "pollo",
+      "price": 27000.2,
+      "in_stock": true,
+      "description": "Bienvenido"
+    }
+    ```
+  - **Descripción:** Actualiza los detalles de un producto específico por su ID.
+
+
+- **Eliminar producto**
+  - **URL:** `{{baseUrl}}/products/{id}`
+  - **Método:** `DELETE`
+  - **Autenticación:** Bearer Token
+  - **Descripción:** Elimina un producto específico por su ID.
+
+
+
+### Usuarios
+
+- **Registrar Usuario**
+  - **URL:** `{{baseUrl}}/users/register`
+  - **Método:** `POST`
+  - **Autenticación:** No requerida
+  - **Cuerpo de la solicitud:**
+    ```json
+    {
+      "username": "usuario",
+      "password": "contraseña"
+    }
+    ```
+  - **Descripción:** Registra un nuevo usuario en la aplicación.
+
+- **Iniciar Sesión**
+  - **URL:** `{{baseUrl}}/users/login`
+  - **Método:** `POST`
+  - **Autenticación:** No requerida
+  - **Cuerpo de la solicitud:**
+    ```json
+    {
+      "username": "usuario",
+      "password": "contraseña"
+    }
+    ```
+  - **Descripción:** Inicia sesión y obtiene un token de acceso.
+
+- **Obtener Perfil de Usuario**
+  - **URL:** `{{baseUrl}}/users/me`
+  - **Método:** `GET`
+  - **Autenticación:** Bearer Token
+  - **Descripción:** Obtiene la información del perfil del usuario autenticado.
 
 
 ## Pruebas unitarias
