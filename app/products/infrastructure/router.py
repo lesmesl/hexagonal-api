@@ -1,12 +1,12 @@
 from typing import List
 
-from fastapi import APIRouter, Depends, Security, status
+from fastapi import APIRouter, Depends, Path, Security, status
 from sqlalchemy.orm import Session
 
 from app.config.config import settings
 from app.config.database import get_db
 from app.products.application.use_cases import ProductUseCase
-from app.products.infrastructure.dtos import ProductSchema
+from app.products.infrastructure.dtos import ProductSchema, ProductSchemaResponse
 from app.products.infrastructure.repository import DatabaseProductRepository
 from app.users.application.use_cases import oauth2_scheme
 
@@ -31,10 +31,35 @@ def create_product(
 
 @router.get(
     settings.GET_PRODUCTS_ROUTE,
-    response_model=List[ProductSchema],
+    response_model=List[ProductSchemaResponse],
     status_code=status.HTTP_200_OK,
 )
 def get_all_products(db: Session = Depends(get_db)):
     repository = DatabaseProductRepository(db)
     use_case = ProductUseCase(repository)
     return use_case.get_all_products()
+
+
+@router.put(
+    settings.UPDATE_PRODUCTS_ROUTE,
+    response_model=ProductSchema,
+    status_code=status.HTTP_200_OK,
+    dependencies=[Security(oauth2_scheme)],
+)
+def update_product(
+    product: ProductSchema, product_id: int = Path(ge=1), db: Session = Depends(get_db)
+):
+    repository = DatabaseProductRepository(db)
+    use_case = ProductUseCase(repository)
+    return use_case.update_product(product_id, product)
+
+
+@router.delete(
+    settings.DELETE_PRODUCTS_ROUTE,
+    status_code=status.HTTP_204_NO_CONTENT,
+    dependencies=[Security(oauth2_scheme)],
+)
+def delete_product(product_id: int = Path(ge=1), db: Session = Depends(get_db)):
+    repository = DatabaseProductRepository(db)
+    use_case = ProductUseCase(repository)
+    return use_case.delete_product(product_id)

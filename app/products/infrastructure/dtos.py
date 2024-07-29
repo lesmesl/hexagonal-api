@@ -2,7 +2,6 @@ from typing import Optional
 
 from pydantic import BaseModel, ConfigDict, validator
 
-
 class ProductSchema(BaseModel):
     name: str
     price: float
@@ -16,3 +15,6 @@ class ProductSchema(BaseModel):
         if value < 0:
             raise ValueError("Price must be positive")
         return value
+
+class ProductSchemaResponse(ProductSchema):
+    id: int
